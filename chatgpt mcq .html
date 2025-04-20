@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQ Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 400px;
+      padding: 20px;
+    }
+    .quiz-header {
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <div id="question" class="question"></div>
+      <div class="answers">
+        <label><input type="radio" name="answer" value="a" /> <span id="a_text"></span></label>
+        <label><input type="radio" name="answer" value="b" /> <span id="b_text"></span></label>
+        <label><input type="radio" name="answer" value="c" /> <span id="c_text"></span></label>
+        <label><input type="radio" name="answer" value="d" /> <span id="d_text"></span></label>
+      </div>
+    </div>
+    <button onclick="submitAnswer()">Submit</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of France?",
+        a: "Berlin",
+        b: "Madrid",
+        c: "Paris",
+        d: "Rome",
+        correct: "c"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        a: "Earth",
+        b: "Mars",
+        c: "Jupiter",
+        d: "Venus",
+        correct: "b"
+      },
+      {
+        question: "Who wrote 'Hamlet'?",
+        a: "Mark Twain",
+        b: "Charles Dickens",
+        c: "Jane Austen",
+        d: "William Shakespeare",
+        correct: "d"
+      },
+	  {
+        question: " What is the capital city of Canada??",
+        a: "Toronto",
+        b: "Ottawa",
+        c: "Vancouver",
+        d: "Montreal",
+        correct: "b"
+      },
+	  {
+        question: "Which planet is known as the 'Red Planet'?",
+        a: "Venus",
+        b: "Earth",
+        c: "Mars",
+        d: "Jupiter",
+        correct: "c"
+      },
+	  {
+        question: "Who wrote the play Romeo and Juliet?",
+        a: "Charles Dickens",
+        b: "William Shakespeare",
+        c: "Jane Austen",
+        d: "Mark Twain",
+        correct: "b"
+      },
+	  {
+        question: "What is the chemical symbol for gold?",
+        a: "Gd",
+        b: "Au",
+        c: "Ag",
+        d: "Go",
+        correct: "b"
+      },
+	  {
+        question: "How many continents are there in the world?",
+        a: "5",
+        b: "6",
+        c: "7",
+        d: "8",
+        correct: "c"
+      },
+	  {
+        question: "Which country is known for inventing pizza?",
+        a: "Greece",
+        b: "Italy",
+        c: "France",
+        d: "Turkey",
+        correct: "b"
+      },
+	  {
+        question: "What is the largest ocean on Earth?",
+        a: "Atlantic Ocean",
+        b: "Indian Ocean",
+        c: "Arctic Ocean",
+        d: "Pacific Ocean",
+        correct: "d"
+      },
+	  {
+        question: "Who painted the Mona Lisa?",
+        a: "Vincent Van Gogh",
+        b: "Pablo Picasso",
+        c: "Leonardo da Vinci",
+        d: "Michelangelo",
+        correct: "c"
+      },
+	  
+    ];
+
+    let currentQuiz = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const a_text = document.getElementById("a_text");
+    const b_text = document.getElementById("b_text");
+    const c_text = document.getElementById("c_text");
+    const d_text = document.getElementById("d_text");
+    const resultEl = document.getElementById("result");
+
+    loadQuiz();
+
+    function loadQuiz() {
+      deselectAnswers();
+      const currentQuizData = quizData[currentQuiz];
+
+      questionEl.innerText = currentQuizData.question;
+      a_text.innerText = currentQuizData.a;
+      b_text.innerText = currentQuizData.b;
+      c_text.innerText = currentQuizData.c;
+      d_text.innerText = currentQuizData.d;
+    }
+
+    function getSelected() {
+      const answers = document.getElementsByName("answer");
+      let selectedAnswer;
+      answers.forEach(answer => {
+        if (answer.checked) {
+          selectedAnswer = answer.value;
+        }
+      });
+      return selectedAnswer;
+    }
+
+    function deselectAnswers() {
+      const answers = document.getElementsByName("answer");
+      answers.forEach(answer => answer.checked = false);
+    }
+
+    function submitAnswer() {
+      const selectedAnswer = getSelected();
+      if (selectedAnswer) {
+        if (selectedAnswer === quizData[currentQuiz].correct) {
+          score++;
+        }
+        currentQuiz++;
+        if (currentQuiz < quizData.length) {
+          loadQuiz();
+        } else {
+          resultEl.innerHTML = `You answered ${score}/${quizData.length} questions correctly.`;
+        }
+      } else {
+        alert("Please select an answer!");
+      }
+    }
+  </script>
+</body>
+</html>
